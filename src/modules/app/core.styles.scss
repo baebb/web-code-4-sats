@@ -1,0 +1,30 @@
+// Import third party ui library css
+@import '~antd/dist/antd.css';
+
+//font
+//html, body, pre, code, kbd, samp {
+//    font-family: "Comic Sans",cursive,sans-serif;
+//}
+
+// Layout Styles
+#root, #app {
+    height: 100%;
+    width: 100%;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+@media only screen and (max-width : 575px) {
+    .hide-mobile {
+        display: none;
+    }
+}
+
+@media only screen and (min-width : 576px) {
+    .hide-desktop {
+        display: none;
+    }
+}

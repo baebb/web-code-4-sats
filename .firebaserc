@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "code-4-sats"
+  },
+  "targets": {
+    "code-4-sats": {
+      "hosting": {
+        "dev": [
+          "code-4-sats-dev"
+        ]
+      }
+    }
   }
 }
