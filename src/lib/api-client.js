@@ -5,7 +5,7 @@ const API_HOST = '';
 
 export const httpClient = axios.create({
     baseURL: API_HOST,
-    timeout: 4000,
+    timeout: 5000,
     responseType: 'json',
     responseEncoding: 'utf8'
 });

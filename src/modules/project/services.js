@@ -1,3 +1,19 @@
+// NPM Dependencies
+import axios from 'axios';
+
+export const GITHUB_URL = 'https://api.github.com/';
+
+export const checkRepo = ({ owner, repo }) =>
+    axios.get(`${GITHUB_URL}/repos/${owner}/${repo}`)
+        .then((response) => {
+            console.log('response', response);
+            return response;
+        })
+        .catch((error) => {
+            console.log('error', error);
+            return error;
+        });
+
 // // NPM Dependencies
 // import PubNub from 'pubnub';
 // import { eventChannel } from 'redux-saga';

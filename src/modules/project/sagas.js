@@ -1,7 +1,29 @@
-// // NPM Dependencies
-// import { fork, throttle, takeLatest, put, call, take } from 'redux-saga/effects';
-// import _ from 'lodash';
-//
+// NPM Dependencies
+import { fork, takeLatest, put, call, take } from 'redux-saga/effects';
+
+// Local Dependencies
+import { checkRepo } from './services';
+import { checkRepoSignal } from './actions';
+
+export function* checkRepoOnRequest({ payload }) {
+    try {
+        const { owner, repo } = payload;
+
+        const response = yield call(checkRepo, { owner, repo });
+
+        console.log('res at saga:', response);
+    } catch (error) {
+        console.log('errd');
+    }
+}
+
+export function* watchCheckRepoSignal() {
+    yield takeLatest(
+        checkRepoSignal.REQUEST,
+        checkRepoOnRequest
+    );
+}
+
 // // Module Dependencies
 // import { initApplicationSignal } from 'modules/app/actions';
 //
@@ -119,9 +141,7 @@
 //     );
 // }
 //
-// export default [
-//     fork(watchAppInitSuccessSignal),
-//     fork(watchSendControlSignal),
-//     fork(watchInitPubSubSuccessSignal),
-//     fork(watchCheckCurrentUsersSignal)
-// ];
+export default [
+    // fork(watchAppInitSuccessSignal),
+    fork(watchCheckRepoSignal)
+];
