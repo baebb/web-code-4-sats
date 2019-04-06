@@ -7,6 +7,9 @@
       "hosting": {
         "dev": [
           "code-4-sats-dev"
+        ],
+        "prod": [
+          "code-4-sats"
         ]
       }
     }
