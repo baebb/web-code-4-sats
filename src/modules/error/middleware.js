@@ -1,5 +1,5 @@
 // Constants
-const APP_NAME = 'spot-control-portal';
+const APP_NAME = 'CODE4SATS_PORTAL';
 
 /**
  * Helper function for logging errors
@@ -8,7 +8,7 @@ const APP_NAME = 'spot-control-portal';
  */
 const errorLogger = (...args) => {
     /* eslint-disable no-console */
-    console.group('Spot control center');
+    console.group(APP_NAME);
     console.info(...args);
     console.groupEnd();
 };
@@ -25,7 +25,7 @@ export default () => store => (next) => {
         const hasError = isFailure && containsError;
 
         if (hasError) {
-            const errorCode = 'SPOT_CONTROL_CENTER_ERROR';
+            const errorCode = `${APP_NAME}_ERROR`;
             const debugInfo = { action };
 
             const { type = 'UNKNOWN' } = action;

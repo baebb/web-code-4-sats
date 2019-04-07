@@ -1,5 +1,5 @@
 // NPM Dependencies
-import { fork, takeLatest, put, call, take } from 'redux-saga/effects';
+import { fork, takeLatest, put, call } from 'redux-saga/effects';
 
 // Local Dependencies
 import { checkRepo } from './services';
@@ -7,13 +7,13 @@ import { checkRepoSignal } from './actions';
 
 export function* checkRepoOnRequest({ payload }) {
     try {
-        const { owner, repo } = payload;
+        const { path } = payload;
 
-        const response = yield call(checkRepo, { owner, repo });
+        const response = yield call(checkRepo, path);
 
-        console.log('res at saga:', response);
+        yield put(checkRepoSignal.success(response));
     } catch (error) {
-        console.log('errd');
+        yield put(checkRepoSignal.failure({ error }));
     }
 }
 

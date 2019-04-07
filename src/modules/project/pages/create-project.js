@@ -3,15 +3,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as url from 'url';
+import _ from 'lodash';
 
 // UI Dependencies
-import { Spin } from 'antd';
+import { Spin, Form, Input, Button, Row, Col } from 'antd';
 
 // Local Dependencies
 import { checkRepoSignal } from '../actions';
 
 class CreateProject extends Component {
     static propTypes = {
+        form: PropTypes.shape({
+            getFieldDecorator: PropTypes.func.isRequired,
+            validateFields: PropTypes.func.isRequired
+        }).isRequired,
         checkRepo: PropTypes.func.isRequired
     };
 
@@ -23,9 +29,27 @@ class CreateProject extends Component {
         };
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const { checkRepo, form } = this.props;
+
+        form.validateFields((err, values) => {
+            if (!err) {
+                const { repoUrl } = values;
+                let path = url.parse(repoUrl).pathname;
+
+                if (_.endsWith(path, '/')) {
+                    path = path.slice(0, -1);
+                }
+
+                checkRepo({ path });
+            }
+        });
+    };
+
     render() {
         const { loading } = this.state;
-        // const { checkRepo } = this.props;
+        const { getFieldDecorator } = this.props.form;
 
         if (loading) {
             return (
@@ -36,7 +60,23 @@ class CreateProject extends Component {
         }
 
         return (
-            <div>lol</div>
+            <Row type="flex" align="middle" justify="center" style={{ height: '100%' }}>
+                <Col style={{ textAlign: 'center' }}>
+                    <h2 style={{ marginBottom: 20 }}>First, enter your repo github URL</h2>
+                    <Form onSubmit={this.handleSubmit} layout="vertical" hideRequiredMark>
+                        <Form.Item>
+                            {getFieldDecorator('repoUrl', {
+                                rules: [{ required: true, message: 'Repo required' }]
+                            })(<Input placeholder="Enter repo URL" />)}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Create
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
         );
     }
 }
@@ -54,4 +94,6 @@ const mapDispatchToProps = dispatch =>
         checkRepo: checkRepoSignal.request
     }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);
+const WrappedCreateProject = Form.create()(CreateProject);
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedCreateProject);

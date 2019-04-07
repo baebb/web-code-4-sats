@@ -1,18 +1,12 @@
 // NPM Dependencies
 import axios from 'axios';
 
-export const GITHUB_URL = 'https://api.github.com/';
+export const GITHUB_URL = 'https://api.github.com';
 
-export const checkRepo = ({ owner, repo }) =>
-    axios.get(`${GITHUB_URL}/repos/${owner}/${repo}`)
-        .then((response) => {
-            console.log('response', response);
-            return response;
-        })
-        .catch((error) => {
-            console.log('error', error);
-            return error;
-        });
+export const checkRepo = path =>
+    axios.get(`${GITHUB_URL}/repos${path}`)
+        .then(response => response.data)
+        .catch(error => Promise.reject(error));
 
 // // NPM Dependencies
 // import PubNub from 'pubnub';
